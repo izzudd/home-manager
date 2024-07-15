@@ -31,6 +31,7 @@
     netlify-cli
     yarn
     go
+    podman-compose
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -89,6 +90,13 @@
       bindkey "^[[3~"   delete-char
       bindkey "\e[1;5D" backward-word
       bindkey "\e[1;5C" forward-word
+      bindkey '^H'      backward-kill-word
+      bindkey '5~'      kill-word
+
+      bindkey '^[[A' history-substring-search-up
+      bindkey '^[OA' history-substring-search-up
+      bindkey '^[[B' history-substring-search-down
+      bindkey '^[OB' history-substring-search-down
 
       source ~/.config/home-manager/p10k.zsh
     '';
@@ -96,10 +104,10 @@
     zplug = {
       enable = true;
       plugins = [
-        { name = "zsh-users/zsh-history-substring-search"; }
         { name = "zsh-users/zsh-autosuggestions"; }
         { name = "zsh-users/zsh-completions"; }
         { name = "zsh-users/zsh-syntax-highlighting"; tags = [defer:2]; }
+        { name = "zsh-users/zsh-history-substring-search"; }
         { name = "mafredri/zsh-async"; tags = [from:github]; }
         { name = "romkatv/powerlevel10k"; tags = [depth:1 as:theme]; }
       ];
