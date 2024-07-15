@@ -24,7 +24,7 @@
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run
     hello
-    neofetch
+    pfetch
     htop
 
     nodejs_20
@@ -81,6 +81,7 @@
       devinit = "nix flake init --template github:cachix/devenv";
     };
     initExtra = ''
+      pfetch
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
       bindkey  "^[[H"   beginning-of-line
       bindkey  "^[[F"   end-of-line
