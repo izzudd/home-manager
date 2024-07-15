@@ -16,7 +16,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -36,7 +36,7 @@
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    # (nerdfonts.override { fonts = [ "FiraCode" ]; })
+    (nerdfonts.override { fonts = [ "FiraCode" ]; })
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -81,23 +81,27 @@
       devinit = "nix flake init --template github:cachix/devenv";
     };
     initExtra = ''
-      pfetch
+      PF_INFO="ascii title os host kernel uptime memory" pfetch
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-      bindkey  "^[[H"   beginning-of-line
-      bindkey  "^[[F"   end-of-line
-      bindkey  "^[[3~"  delete-char
+      
+      bindkey "^[[H"    beginning-of-line
+      bindkey "^[[F"    end-of-line
+      bindkey "^[[3~"   delete-char
+      bindkey "\e[1;5D" backward-word
+      bindkey "\e[1;5C" forward-word
+
+      source ~/.config/home-manager/p10k.zsh
     '';
 
-    enableAutosuggestions = true;
-    historySubstringSearch.enable = true;
     zplug = {
       enable = true;
       plugins = [
-        { name = "plugins/git"; tags = [from:oh-my-zsh]; }
+        { name = "zsh-users/zsh-history-substring-search"; }
+        { name = "zsh-users/zsh-autosuggestions"; }
         { name = "zsh-users/zsh-completions"; }
         { name = "zsh-users/zsh-syntax-highlighting"; tags = [defer:2]; }
         { name = "mafredri/zsh-async"; tags = [from:github]; }
-        { name = "sindresorhus/pure"; tags = [use:pure.zsh from:github as:theme]; }
+        { name = "romkatv/powerlevel10k"; tags = [depth:1 as:theme]; }
       ];
     };
   };
@@ -129,6 +133,8 @@
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
     # EDITOR = "emacs";
+    LC_ALL = "C";
+    LANG = "C.UTF-8";
   };
 
   # Let Home Manager install and manage itself.
