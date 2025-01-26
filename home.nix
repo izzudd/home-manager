@@ -16,7 +16,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -26,12 +26,16 @@
     hello
     pfetch
     htop
+    speedtest-cli
 
-    nodejs_20
+    nodejs_22
+    bun
     netlify-cli
-    yarn
+    yarn-berry
+
     go
-    podman-compose
+
+    uv
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -75,11 +79,16 @@
   programs.zsh = {
     enable = true;
     shellAliases = {
-      homec = "vim ~/.config/home-manager/home.nix";
-      homes = "home-manager switch";
-      nixc = "sudo vim /etc/nixos/configuration.nix";
-      nixs = "sudo nixos-rebuild switch";
-      devinit = "nix flake init --template github:cachix/devenv";
+      homec          = "vim ~/.config/home-manager/home.nix";
+      homes          = "home-manager switch";
+      nixup          = "nix-channel --update";
+      nixc           = "sudo vim /etc/nixos/configuration.nix";
+      nixs           = "sudo nixos-rebuild switch";
+      devinit        = "nix flake init --template github:cachix/devenv";
+      docker-start   = "sudo systemctl start docker";
+      docker-stop    = "sudo systemctl stop docker";
+      docker-clean   = "docker system prune -a";
+      docker-killall = "docker stop $(docker ps -a -q)";
     };
     initExtra = ''
       PF_INFO="ascii title os host kernel uptime memory" pfetch
@@ -99,6 +108,7 @@
       bindkey '^[OB' history-substring-search-down
 
       source ~/.config/home-manager/p10k.zsh
+      source ~/.bashrc
     '';
 
     zplug = {
